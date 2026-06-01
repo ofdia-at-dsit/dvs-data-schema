@@ -1,0 +1,13 @@
+# Eleventy input is the repository root. This file tells Eleventy to ignore
+# paths that are not publication content.
+
+node_modules
+.github
+docs-site/node_modules
+docs-site/_site
+docs-site/package.json
+docs-site/package-lock.json
+docs-site/.gitignore
+supporting-material/scripts
+.git
+.venv
