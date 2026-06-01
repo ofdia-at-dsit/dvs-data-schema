@@ -1,0 +1,31 @@
+name: Schema feedback
+description: Suggest a change to the underlying data schema itself.
+labels:
+  - schema-feedback
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Important:** this repository cannot on its own change the data schema. Substantive changes are made by OfDIA and published on GOV.UK.
+        
+        Use this template to record a suggestion — a field rename, a new enum value, a clarification, alignment with OIDC / OID4IDA / Verifiable Credentials, and so on. Maintainers collect these so the suggestions can be considered for future revisions.
+  - type: input
+    id: element
+    attributes:
+      label: 'Element or field affected'
+      description: 'Use the dot-path if possible, for example `verified_claims.verification.evidence.document.document_details.type`.'
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 'What you are suggesting and why'
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: 'Prior art / references'
+      description: 'Links to OIDC, OID4IDA, W3C Verifiable Credentials, IANA registries, ISO standards or other relevant material.'
+    validations:
+      required: false

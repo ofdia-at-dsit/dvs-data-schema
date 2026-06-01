@@ -1,0 +1,30 @@
+name: Typo or formatting error
+description: Report a typo, spelling mistake or formatting glitch in the workspace text.
+labels:
+  - typo
+body:
+  - type: markdown
+    attributes:
+      value: 'Use this template for small, uncontroversial fixes such as typos, missing punctuation, rendering glitches or obvious formatting errors in the workspace copy. For changes to schema meaning, please use the `Schema feedback` template instead.'
+  - type: input
+    id: location
+    attributes:
+      label: 'Location'
+      description: 'File path (and line, if you can) where the typo appears.'
+      placeholder: 'schema-1.0/gpg-45/03-data-model.md, line 42'
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 'What is wrong'
+      description: 'Quote the current text and explain the issue.'
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: 'Suggested fix'
+      description: 'Your suggested replacement text.'
+    validations:
+      required: false

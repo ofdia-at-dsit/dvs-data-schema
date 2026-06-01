@@ -1,0 +1,25 @@
+name: Broken link
+description: A hyperlink in the workspace or supporting material does not resolve correctly.
+labels:
+  - broken-link
+body:
+  - type: input
+    id: location
+    attributes:
+      label: 'Where is the broken link'
+      placeholder: 'schema-1.0/gpg-45/04-data-dictionary.md'
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: 'The broken URL'
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 'Where should it go'
+      description: 'If you know the correct destination, please provide it.'
+    validations:
+      required: false

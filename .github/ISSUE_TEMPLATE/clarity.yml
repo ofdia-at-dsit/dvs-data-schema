@@ -1,0 +1,30 @@
+name: Clarity or wording improvement
+description: Suggest a clearer way of presenting existing workspace content.
+labels:
+  - clarity
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template when the workspace text is technically correct but could be clearer — for example, heading wording, table structure, ordering or cross-references.
+        
+        This template is for presentation changes that do not change the underlying data model or its semantics. For changes to schema meaning, use the `Schema feedback` template.
+  - type: input
+    id: location
+    attributes:
+      label: 'Location'
+      placeholder: 'schema-1.0/gpg-45/02-data-taxonomy.md'
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 'What is unclear'
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: 'Suggested improvement'
+    validations:
+      required: false

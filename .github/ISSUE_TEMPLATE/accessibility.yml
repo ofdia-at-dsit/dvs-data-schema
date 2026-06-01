@@ -1,0 +1,28 @@
+name: Accessibility issue
+description: Report an accessibility problem with the workspace text, supporting material or rendered site.
+labels:
+  - accessibility
+body:
+  - type: markdown
+    attributes:
+      value: 'Use this template for anything that makes the workspace harder to use with assistive technology or for readers with accessibility needs — missing alt text, tables that do not have a clear header row, colour contrast in derived artefacts, and so on.'
+  - type: input
+    id: location
+    attributes:
+      label: 'Location'
+      placeholder: 'schema-1.0/gpg-45/03-data-model.md'
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 'Accessibility problem'
+    validations:
+      required: true
+  - type: textarea
+    id: tool
+    attributes:
+      label: 'Assistive tool(s) affected'
+      description: 'Screen reader, braille display, keyboard navigation, voice control, etc.'
+    validations:
+      required: false

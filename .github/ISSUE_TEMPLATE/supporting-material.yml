@@ -1,0 +1,33 @@
+name: Supporting material suggestion
+description: "Propose a new or improved derived artefact: diagrams, machine-readable exports, mappings."
+labels:
+  - supporting-material
+body:
+  - type: markdown
+    attributes:
+      value: 'Use this template to propose new or improved supporting material. Supporting material is clearly labelled as derived and non-authoritative — it helps implementers use the schema but does not form part of the published text.'
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 'Type of supporting material'
+      options:
+        - 'Diagram'
+        - 'Machine-readable export'
+        - 'Mapping to another standard'
+        - 'Presentation view'
+        - 'Script or tooling'
+        - 'Other'
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 'What you are proposing'
+    validations:
+      required: true
+  - type: textarea
+    id: audience
+    attributes:
+      label: 'Who would use it'
+    validations:
+      required: false

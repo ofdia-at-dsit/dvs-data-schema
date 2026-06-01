@@ -1,0 +1,59 @@
+name: Caution block integrity
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.md'
+
+# Enforces that every workspace Markdown file starts with the exact caution
+# block. This is the repository's only hard "do not break this" invariant.
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check caution block
+        run: |
+          set -eu
+          expected_line1="> [!CAUTION]"
+          expected_line2_prefix="> This repository is a workspace copy"
+          fails=0
+          total=0
+          while IFS= read -r -d '' f; do
+            case "$f" in
+              ./.github/*) continue ;;
+              ./docs-site/README.md) continue ;;
+              ./docs-site/node_modules/*) continue ;;
+              ./node_modules/*) continue ;;
+            esac
+            total=$((total + 1))
+            line1=$(sed -n '1p' "$f")
+            line2=$(sed -n '2p' "$f")
+            line3=$(sed -n '3p' "$f")
+            if [ "$line1" != "$expected_line1" ]; then
+              echo "FAIL (line 1): $f"
+              fails=$((fails + 1))
+              continue
+            fi
+            case "$line2" in
+              "$expected_line2_prefix"*) ;;
+              *)
+                echo "FAIL (line 2): $f"
+                fails=$((fails + 1))
+                continue
+                ;;
+            esac
+            if [ -n "$line3" ]; then
+              echo "FAIL (line 3 not blank): $f"
+              fails=$((fails + 1))
+            fi
+          done < <(find . -type f -name "*.md" -print0)
+          echo "$total files scanned, $fails caution-block failures"
+          if [ "$fails" -gt 0 ]; then
+            exit 1
+          fi

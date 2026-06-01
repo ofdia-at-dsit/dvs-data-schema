@@ -1,0 +1,21 @@
+name: Structural feedback
+description: Feedback on the repository's structure, navigation or tooling.
+labels:
+  - structural-feedback
+body:
+  - type: markdown
+    attributes:
+      value: 'Use this template for feedback on how the repository is organised: folder structure, navigation, page splits, CI, site build, templates. This is for repository-level changes, not schema changes.'
+  - type: textarea
+    id: problem
+    attributes:
+      label: 'What would you change and why'
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: 'Expected impact'
+      description: 'What does this change unlock or make easier?'
+    validations:
+      required: false
