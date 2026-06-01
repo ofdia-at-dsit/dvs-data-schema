@@ -1,0 +1,32 @@
+# Derived, non-authoritative, for implementation support only.
+# Authoritative definition: the publication text under schema-1.0/.
+
+- element: authentication
+  sub_elements:
+    - name: authenticator_protection
+      type: string
+      description: "Level of protection achieved according to GPG 44"
+      source: 04-data-dictionary.md
+    - name: multifactor
+      type: string
+      description: "The number of factors used in the authentication"
+      source: 04-data-dictionary.md
+    - name: monitoring
+      type: string
+      description: "Whether monitoring is being performed"
+      source: 04-data-dictionary.md
+    - name: authenticators
+      type: array
+      description: "Array of authenticator objects"
+      source: 03-data-model.md
+
+- element: authenticator
+  sub_elements:
+    - name: authenticator_type
+      type: string
+      description: "The type of authenticator according to GPG 44"
+      source: 04-data-dictionary.md
+    - name: authenticator_quality
+      type: string
+      description: "The quality of the authenticator according to GPG 44"
+      source: 04-data-dictionary.md

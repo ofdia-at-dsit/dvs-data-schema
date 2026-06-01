@@ -1,0 +1,13 @@
+%% Derived, non-authoritative. For implementation support only.
+%% Authoritative definition: schema-1.0/gpg-44/03-data-model.md
+graph TD
+    AUTH[authentication]
+
+    AUTH --> PROT[authenticator_protection]
+    AUTH --> MF[multifactor]
+    AUTH --> MON[monitoring]
+    AUTH --> AUTHS[authenticators: array]
+
+    AUTHS --> A1[authenticator]
+    A1 --> T[authenticator_type]
+    A1 --> Q[authenticator_quality]

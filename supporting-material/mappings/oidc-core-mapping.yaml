@@ -1,0 +1,139 @@
+# =============================================================================
+# DVS claims.* → OpenID Connect Core / IANA JWT Claims Registry mapping
+# =============================================================================
+#
+# Derived, non-authoritative, for implementation support only.
+# Authoritative DVS definition: schema-1.0/gpg-45/
+# Authoritative OIDC Core: https://openid.net/specs/openid-connect-core-1_0.html
+# Authoritative JWT claims: see IANA registry linked below.
+
+standard:
+  name: "OpenID Connect Core 1.0 + IANA JWT Claims Registry"
+  urls:
+    core: "https://openid.net/specs/openid-connect-core-1_0.html"
+    iana_jwt_claims: "https://www.iana.org/assignments/jwt/jwt.xhtml"
+    ida_claims_registration: "https://openid.net/specs/openid-connect-4-ida-claims-1_0-final.html"
+  date_referenced: "2026-04-21"
+
+labelling:
+  derived: true
+  non_authoritative: true
+  for_implementation_support_only: true
+  status: |
+    Draft seed mapping. Covers only the identity attribute claims under
+    `verified_claims.claims.*`. For the wider DVS ↔ OID4IDA mapping
+    (verification envelope, evidence, assurance), see `oid4ida-mapping.yaml`.
+
+authoritative_dvs_source: schema-1.0/gpg-45/
+
+mappings:
+
+  - dvs: verified_claims.claims.given_name
+    target: given_name
+    target_source: OIDC Core 5.1
+    kind: exact
+
+  - dvs: verified_claims.claims.family_name
+    target: family_name
+    target_source: OIDC Core 5.1
+    kind: exact
+
+  - dvs: verified_claims.claims.birthdate
+    target: birthdate
+    target_source: OIDC Core 5.1
+    kind: exact
+    notes: |
+      ISO 8601 YYYY-MM-DD in both specs.
+
+  - dvs: verified_claims.claims.nationalities
+    target: nationalities
+    target_source: IDA Claims Registration
+    kind: exact
+    notes: |
+      An array of ISO 3166-1 country codes. The DVS variant additionally
+      accepts ICAO Doc 9303 country codes for compatibility with travel
+      documents.
+
+  - dvs: verified_claims.claims.address
+    target: address
+    target_source: OIDC Core 5.1.1
+    kind: restructured
+    notes: |
+      OIDC Core `address` has `formatted`, `street_address`, `locality`,
+      `region`, `postal_code`, `country`. DVS has `street_address`,
+      `locality`, `postal_code`, `country` plus a DVS-specific
+      `transliteration_status`. No `formatted` or `region` in DVS.
+
+  - dvs: verified_claims.claims.address.street_address
+    target: address.street_address
+    kind: exact
+
+  - dvs: verified_claims.claims.address.locality
+    target: address.locality
+    kind: exact
+
+  - dvs: verified_claims.claims.address.postal_code
+    target: address.postal_code
+    kind: exact
+
+  - dvs: verified_claims.claims.address.country
+    target: address.country
+    kind: exact
+
+  - dvs: verified_claims.claims.age
+    target: ~
+    kind: dvs_only
+    notes: |
+      OIDC Core has no direct numeric `age` claim. Use `birthdate` and
+      compute, or use `age_equal_or_over` (Claims Registration) for the
+      common "is the user at least N" query.
+
+  - dvs: verified_claims.claims.is_over
+    target: "(approximate) age_equal_or_over"
+    target_source: IDA Claims Registration
+    kind: restructured
+    notes: |
+      `is_over: 18` is close to `age_equal_or_over: 18`. Note that the
+      OIDC variant is a boolean-returning comparison claim, whereas DVS
+      stores the threshold value itself. See `oid4ida-mapping.yaml` for
+      the fuller note.
+
+  - dvs: verified_claims.claims.is_under
+    target: ~
+    kind: dvs_only
+    notes: |
+      There is no standard OIDC / IDA counterpart for an upper-bound age
+      assertion. `is_under: 18` would need to be modelled either as a
+      negation of `age_equal_or_over: 18` (semantically different) or as
+      a custom claim.
+
+  - dvs: verified_claims.claims.biometric_information
+    target: ~
+    kind: dvs_only
+    notes: |
+      Biometric data is not a standard OIDC Core claim. It lives inside
+      the IDA verification envelope rather than alongside the identity
+      claims, so there is no direct equivalent here.
+
+  - dvs: verified_claims.claims.transliteration_status
+    target: ~
+    kind: dvs_only
+    notes: |
+      No OIDC Core equivalent. OIDC Core does define `given_name#ja-Kana-JP`
+      locale-suffixed variants for transliterated names (e.g. `ja-Kana-JP`,
+      `ja-Hani-JP`); DVS instead attaches a structured
+      `transliteration_status` object describing the original and target
+      languages and the transliteration method. The two approaches model
+      the same idea differently.
+
+# Claims defined by OIDC Core / IDA that DVS does not carry, for reference:
+#   - middle_name, nickname, preferred_username, profile, picture, website
+#     email, email_verified, phone_number, phone_number_verified
+#     gender, zoneinfo, locale, updated_at
+#     (OIDC Core 5.1)
+#   - birthplace, place_of_birth, msisdn, also_known_as, salutation, title
+#     (IDA Claims Registration)
+#
+# These are not listed as mapping entries because the DVS schema simply
+# does not model them. A relying party wanting them alongside the verified
+# claims would request them as separate OIDC claims.

@@ -1,0 +1,8 @@
+{
+  "title": "UK DVS trust framework data schema",
+  "caption": "Version 1.0 — pre-release workspace copy",
+  "phase": "Pre-release",
+  "phaseBannerText": "This is a workspace copy of the data schema. The authoritative publication lives on GOV.UK.",
+  "repo": "https://github.com/OWNER/REPO",
+  "baseurl": ""
+}

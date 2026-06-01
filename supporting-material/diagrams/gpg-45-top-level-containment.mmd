@@ -1,0 +1,20 @@
+%% Derived, non-authoritative. For implementation support only.
+%% Authoritative definition: schema-1.0/gpg-45/03-data-model.md
+graph TD
+    VC[verified_claims]
+    VC --> C[claims]
+    VC --> V[verification]
+
+    V --> TF[trust_framework: 'uk_dvstf']
+    V --> DR[dvs_registration]
+    V --> E[evidence]
+    V --> AL[assurance_level]
+    V --> AP[assurance_process]
+
+    E --> DOC[document]
+    E --> ER[electronic_record]
+    E --> VCH[vouch]
+
+    AP --> POL[policy: 'gpg45']
+    AP --> PRO[procedure]
+    AP --> AD[assurance_details]

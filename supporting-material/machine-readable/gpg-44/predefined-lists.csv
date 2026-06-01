@@ -1,0 +1,6 @@
+# Derived, non-authoritative, for implementation support only.
+# Authoritative definition: the publication text under schema-1.0/.
+element,type,allowed_values,notes
+authenticator_type,string,"pin, password, kbv, physical_token, digital_token, biometric",
+authenticator_quality,string,"low, medium, high",levels from GPG 44
+authenticator_protection,string,"low, medium, high, very_high",levels from GPG 44

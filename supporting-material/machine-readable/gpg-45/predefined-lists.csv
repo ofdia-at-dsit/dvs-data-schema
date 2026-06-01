@@ -1,0 +1,14 @@
+# Derived, non-authoritative, for implementation support only.
+# Authoritative definition: the publication text under schema-1.0/.
+element,type,allowed_values,notes
+assurance_classification,string,"score_1, score_2, score_3, score_4",Scores taken from GPG 45
+assurance_level,string,"low, medium, high, very_high",Confidence levels from GPG 45
+assurance_type,string,"validation, verification, counter_fraud, activity_history",
+biometric_modality,string,"face, fingerprint, voice, iris",
+check_method,string,"auth, token, kbv, pvp, pvr, bvp, bvr, vpip, vpiruv, vri, vdig, vcrypt, data",
+document_type,string,"passport, id_card, passport_card, driving_permit, military_id, veterans_card, proof_of_age_id, home_office_travel_document, bus_pass, education_certificate, rental_agreement, purchase_agreement, pass_card, freedom_pass, voter_id, bank_statement, utility_statement, mortgage_statement, loan_statement, tax_statement, social_security_statement, pilot_permit, birth_certificate, adoption_certificate, marriage_certificate, civil_partnership_certificate, firearm_certificate",
+encoding_format,string,"base64, byte_data",
+evidence_classification,string,"low_kbv, medium_kbv, high_kbv, id_fraud, mortality_check",
+procedure,string,"L1A, L1B, L1C, L2A, L2B, L3A, M1A, M1B, M1C, M1D, M2A, M2B, M2C, M3A, H1A, H1B, H1C, H2A, H2B, H2C, H2D, H2E, H3A, V1A, V1B, V1C, V1D, V2A, V2B, V2C, V2D, V3A",Identity profiles from GPG 45
+record_type,string,"social_security_record, bank_account, building_society_account, credit_union_account, current_account, student_loan_account, credit_account, mortgage_account, loan_account, birth_register, population_register, voter_register, adoption_register, marriage_register, civil_partnership_register, education_record, utility_account, military_record, tax_record, prison_record, death_register, fraud_register",
+transliteration_type,string,"manual, icao, unknown_transliteration",

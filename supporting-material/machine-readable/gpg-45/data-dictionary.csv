@@ -1,0 +1,94 @@
+# Derived, non-authoritative, for implementation support only.
+# Authoritative definition: the publication text under schema-1.0/.
+element,sub_element,type,description,source
+verified_claims,claims,object,The identity claims,03-data-model.md
+verified_claims,verification,object,Information about the checks done to prove the claims,03-data-model.md
+claims,given_name,string,Individual's given name(s),03-data-model.md
+claims,family_name,string,Individual's family / surname name(s),03-data-model.md
+claims,transliteration_status,object,Transliteration status,03-data-model.md
+claims,biometric_information,array,One or more biometric characteristics,03-data-model.md
+claims,birthdate,date,Individual's birth date,03-data-model.md
+claims,nationalities,array,One or more countries of citizenship,03-data-model.md
+claims,address,object,Individual's address,03-data-model.md
+claims,age,number,The individual's age,03-data-model.md
+claims,is_under,number,Whether they are under a specific age,03-data-model.md
+claims,is_over,number,Whether they are over a specific age,03-data-model.md
+transliteration_status,original_language,language,Original language the text was written in,03-data-model.md
+transliteration_status,transliterated_language,language,Language the text has been transliterated to,03-data-model.md
+transliteration_status,transliteration_type,transliteration_type,The way the transliteration was done,03-data-model.md
+biometric_information,biometric_modality,biometric_modality,The biometric characteristic (modality) exchanged,03-data-model.md
+biometric_information,attachments,array,The biometric data,03-data-model.md
+address,street_address,string,Street address,03-data-model.md
+address,locality,string,Town or city,03-data-model.md
+address,postal_code,string,Post code,03-data-model.md
+address,country,string,Country,03-data-model.md
+address,transliteration_status,object,Transliteration status of the address,03-data-model.md
+verification,trust_framework,'uk_dvstf',The assurance framework; fixed string for DVS,03-data-model.md
+verification,dvs_registration,object,Which certified service performed the verification,03-data-model.md
+verification,evidence,array,The evidence used to prove the claim,03-data-model.md
+verification,assurance_level,assurance_level,The assurance level achieved,03-data-model.md
+verification,assurance_process,object,The processes performed to prove the claim,03-data-model.md
+dvs_registration,registered_name,string,The name of the certified service,03-data-model.md
+dvs_registration,registration_id,string,Unique identifier in the DVS register,03-data-model.md
+evidence,document,object,A document used as evidence,03-data-model.md
+evidence,electronic_record,object,An electronic record used as evidence,03-data-model.md
+evidence,vouch,object,A vouch used as evidence,03-data-model.md
+document,type,'document',Fixed literal,03-data-model.md
+document,document_details,object,Details of the document,03-data-model.md
+document,attachments,array,Copy of the document,03-data-model.md
+document,check_details,object,Checks done on the document,03-data-model.md
+document_details,type,document_type,Type of document,03-data-model.md
+document_details,document_number,string,Unique document reference,03-data-model.md
+document_details,serial_number,string,Serial number identifying the physical document,03-data-model.md
+document_details,personal_number,string,Reference that uniquely identifies the person,03-data-model.md
+document_details,date_of_issuance,date,Date of issue,03-data-model.md
+document_details,date_of_expiry,date,Date of expiry,03-data-model.md
+document_details,issuer,authority,Issuing authority,03-data-model.md
+document_details,transliteration_status,object,Transliteration status,03-data-model.md
+electronic_record,type,'electronic_record',Fixed literal,03-data-model.md
+electronic_record,record,object,Details of the record,03-data-model.md
+electronic_record,attachments,array,Copy of the electronic record,03-data-model.md
+electronic_record,check_details,object,Checks done on the record,03-data-model.md
+record,type,record_type,Type of record,03-data-model.md
+record,reference_number,string,Unique reference number,03-data-model.md
+record,created_at,timestamp,Time the record was created,03-data-model.md
+record,date_of_expiry,timestamp,Expiry of the record,03-data-model.md
+record,source,authority,Source of the record,03-data-model.md
+record,transliteration_status,object,Transliteration status,03-data-model.md
+vouch,type,'vouch',Fixed literal,03-data-model.md
+vouch,attestation,object,Details of the attestation,03-data-model.md
+vouch,attachments,array,Copy of the vouch,03-data-model.md
+vouch,check_details,object,Checks done on the vouch,03-data-model.md
+attestation,type,'vouch',Fixed literal,03-data-model.md
+attestation,reference_number,string,Unique reference number for the vouch,03-data-model.md
+attestation,date_of_issuance,date,Issue date of the vouch,03-data-model.md
+attestation,date_of_expiry,date,Expiry date of the evidence,03-data-model.md
+attestation,voucher,object,Person providing the vouch,03-data-model.md
+attestation,transliteration_status,object,Transliteration status,03-data-model.md
+authority,name,string,Name of the authority,03-data-model.md
+authority,address,address,Address of the authority,03-data-model.md
+authority,country_code,country_code,Country code where authority is based,03-data-model.md
+authority,jurisdiction,string,Jurisdiction of the authority,03-data-model.md
+voucher,name,string,Name of the voucher,03-data-model.md
+voucher,birthdate,date,Date of birth of the voucher,03-data-model.md
+voucher,address,address,Address of the voucher,03-data-model.md
+voucher,country_code,country_code,Country code where voucher is based,03-data-model.md
+voucher,occupation,string,Occupation of the voucher,03-data-model.md
+voucher,organisation,authority,Organisation the voucher represents,03-data-model.md
+check_details,check_method,check_method,Process followed to perform the check,03-data-model.md
+check_details,check_id,string,Unique reference number for the check,03-data-model.md
+check_details,time,timestamp,Time the check was performed,03-data-model.md
+check_details,organisation,string,Name of the organisation that performed the check,03-data-model.md
+attachment,desc,string,Description of the attachment,03-data-model.md
+attachment,content_type,encoding,Type of data encoded in the attachment,03-data-model.md
+attachment,content_format,encoding_format,Format of the encoding,03-data-model.md
+attachment,content,data,The encoded attachment data,03-data-model.md
+assurance_process,policy,'gpg45',Standard or policy followed; fixed literal,03-data-model.md
+assurance_process,procedure,procedure,Specific procedure from the policy (GPG 45 profile),03-data-model.md
+assurance_process,assurance_details,array,Details of checks and processes performed,03-data-model.md
+assurance_details,assurance_type,assurance_type,Type of check performed,03-data-model.md
+assurance_details,assurance_classification,assurance_classification,Classification within the trust framework,03-data-model.md
+assurance_details,evidence_ref,array,Evidence used to reach the assurance,03-data-model.md
+evidence_ref,check_id,string,Unique reference to the check,03-data-model.md
+evidence_ref,evidence_ref,object,Reference to the evidence metadata,03-data-model.md
+evidence_metadata,evidence_classification,evidence_classification,How the process demonstrates compliance,03-data-model.md

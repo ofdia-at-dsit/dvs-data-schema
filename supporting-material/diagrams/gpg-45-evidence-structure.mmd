@@ -1,0 +1,24 @@
+%% Derived, non-authoritative. For implementation support only.
+%% Authoritative definition: schema-1.0/gpg-45/03-data-model.md
+graph TD
+    EV[evidence]
+
+    EV --> DOC[document]
+    EV --> ER[electronic_record]
+    EV --> VCH[vouch]
+
+    DOC --> DOC_DETAILS[document_details]
+    DOC --> DOC_ATT[attachments]
+    DOC --> DOC_CHK[check_details]
+
+    ER --> ER_REC[record]
+    ER --> ER_ATT[attachments]
+    ER --> ER_CHK[check_details]
+
+    VCH --> VCH_ATT2[attestation]
+    VCH --> VCH_ATTCH[attachments]
+    VCH --> VCH_CHK[check_details]
+
+    VCH_ATT2 --> VOUCHER[voucher]
+    DOC_DETAILS --> ISSUER[issuer -> authority]
+    ER_REC --> SOURCE[source -> authority]

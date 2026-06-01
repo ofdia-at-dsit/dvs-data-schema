@@ -1,0 +1,432 @@
+# Derived, non-authoritative, for implementation support only.
+# Authoritative definition: the publication text under schema-1.0/.
+
+- element: verified_claims
+  sub_elements:
+    - name: claims
+      type: object
+      description: "The identity claims"
+      source: 03-data-model.md
+    - name: verification
+      type: object
+      description: "Information about the checks done to prove the claims"
+      source: 03-data-model.md
+
+- element: claims
+  sub_elements:
+    - name: given_name
+      type: string
+      description: "Individual's given name(s)"
+      source: 03-data-model.md
+    - name: family_name
+      type: string
+      description: "Individual's family / surname name(s)"
+      source: 03-data-model.md
+    - name: transliteration_status
+      type: object
+      description: "Transliteration status"
+      source: 03-data-model.md
+    - name: biometric_information
+      type: array
+      description: "One or more biometric characteristics"
+      source: 03-data-model.md
+    - name: birthdate
+      type: date
+      description: "Individual's birth date"
+      source: 03-data-model.md
+    - name: nationalities
+      type: array
+      description: "One or more countries of citizenship"
+      source: 03-data-model.md
+    - name: address
+      type: object
+      description: "Individual's address"
+      source: 03-data-model.md
+    - name: age
+      type: number
+      description: "The individual's age"
+      source: 03-data-model.md
+    - name: is_under
+      type: number
+      description: "Whether they are under a specific age"
+      source: 03-data-model.md
+    - name: is_over
+      type: number
+      description: "Whether they are over a specific age"
+      source: 03-data-model.md
+
+- element: transliteration_status
+  sub_elements:
+    - name: original_language
+      type: language
+      description: "Original language the text was written in"
+      source: 03-data-model.md
+    - name: transliterated_language
+      type: language
+      description: "Language the text has been transliterated to"
+      source: 03-data-model.md
+    - name: transliteration_type
+      type: transliteration_type
+      description: "The way the transliteration was done"
+      source: 03-data-model.md
+
+- element: biometric_information
+  sub_elements:
+    - name: biometric_modality
+      type: biometric_modality
+      description: "The biometric characteristic (modality) exchanged"
+      source: 03-data-model.md
+    - name: attachments
+      type: array
+      description: "The biometric data"
+      source: 03-data-model.md
+
+- element: address
+  sub_elements:
+    - name: street_address
+      type: string
+      description: "Street address"
+      source: 03-data-model.md
+    - name: locality
+      type: string
+      description: "Town or city"
+      source: 03-data-model.md
+    - name: postal_code
+      type: string
+      description: "Post code"
+      source: 03-data-model.md
+    - name: country
+      type: string
+      description: "Country"
+      source: 03-data-model.md
+    - name: transliteration_status
+      type: object
+      description: "Transliteration status of the address"
+      source: 03-data-model.md
+
+- element: verification
+  sub_elements:
+    - name: trust_framework
+      type: 'uk_dvstf'
+      description: "The assurance framework; fixed string for DVS"
+      source: 03-data-model.md
+    - name: dvs_registration
+      type: object
+      description: "Which certified service performed the verification"
+      source: 03-data-model.md
+    - name: evidence
+      type: array
+      description: "The evidence used to prove the claim"
+      source: 03-data-model.md
+    - name: assurance_level
+      type: assurance_level
+      description: "The assurance level achieved"
+      source: 03-data-model.md
+    - name: assurance_process
+      type: object
+      description: "The processes performed to prove the claim"
+      source: 03-data-model.md
+
+- element: dvs_registration
+  sub_elements:
+    - name: registered_name
+      type: string
+      description: "The name of the certified service"
+      source: 03-data-model.md
+    - name: registration_id
+      type: string
+      description: "Unique identifier in the DVS register"
+      source: 03-data-model.md
+
+- element: evidence
+  sub_elements:
+    - name: document
+      type: object
+      description: "A document used as evidence"
+      source: 03-data-model.md
+    - name: electronic_record
+      type: object
+      description: "An electronic record used as evidence"
+      source: 03-data-model.md
+    - name: vouch
+      type: object
+      description: "A vouch used as evidence"
+      source: 03-data-model.md
+
+- element: document
+  sub_elements:
+    - name: type
+      type: 'document'
+      description: "Fixed literal"
+      source: 03-data-model.md
+    - name: document_details
+      type: object
+      description: "Details of the document"
+      source: 03-data-model.md
+    - name: attachments
+      type: array
+      description: "Copy of the document"
+      source: 03-data-model.md
+    - name: check_details
+      type: object
+      description: "Checks done on the document"
+      source: 03-data-model.md
+
+- element: document_details
+  sub_elements:
+    - name: type
+      type: document_type
+      description: "Type of document"
+      source: 03-data-model.md
+    - name: document_number
+      type: string
+      description: "Unique document reference"
+      source: 03-data-model.md
+    - name: serial_number
+      type: string
+      description: "Serial number identifying the physical document"
+      source: 03-data-model.md
+    - name: personal_number
+      type: string
+      description: "Reference that uniquely identifies the person"
+      source: 03-data-model.md
+    - name: date_of_issuance
+      type: date
+      description: "Date of issue"
+      source: 03-data-model.md
+    - name: date_of_expiry
+      type: date
+      description: "Date of expiry"
+      source: 03-data-model.md
+    - name: issuer
+      type: authority
+      description: "Issuing authority"
+      source: 03-data-model.md
+    - name: transliteration_status
+      type: object
+      description: "Transliteration status"
+      source: 03-data-model.md
+
+- element: electronic_record
+  sub_elements:
+    - name: type
+      type: 'electronic_record'
+      description: "Fixed literal"
+      source: 03-data-model.md
+    - name: record
+      type: object
+      description: "Details of the record"
+      source: 03-data-model.md
+    - name: attachments
+      type: array
+      description: "Copy of the electronic record"
+      source: 03-data-model.md
+    - name: check_details
+      type: object
+      description: "Checks done on the record"
+      source: 03-data-model.md
+
+- element: record
+  sub_elements:
+    - name: type
+      type: record_type
+      description: "Type of record"
+      source: 03-data-model.md
+    - name: reference_number
+      type: string
+      description: "Unique reference number"
+      source: 03-data-model.md
+    - name: created_at
+      type: timestamp
+      description: "Time the record was created"
+      source: 03-data-model.md
+    - name: date_of_expiry
+      type: timestamp
+      description: "Expiry of the record"
+      source: 03-data-model.md
+    - name: source
+      type: authority
+      description: "Source of the record"
+      source: 03-data-model.md
+    - name: transliteration_status
+      type: object
+      description: "Transliteration status"
+      source: 03-data-model.md
+
+- element: vouch
+  sub_elements:
+    - name: type
+      type: 'vouch'
+      description: "Fixed literal"
+      source: 03-data-model.md
+    - name: attestation
+      type: object
+      description: "Details of the attestation"
+      source: 03-data-model.md
+    - name: attachments
+      type: array
+      description: "Copy of the vouch"
+      source: 03-data-model.md
+    - name: check_details
+      type: object
+      description: "Checks done on the vouch"
+      source: 03-data-model.md
+
+- element: attestation
+  sub_elements:
+    - name: type
+      type: 'vouch'
+      description: "Fixed literal"
+      source: 03-data-model.md
+    - name: reference_number
+      type: string
+      description: "Unique reference number for the vouch"
+      source: 03-data-model.md
+    - name: date_of_issuance
+      type: date
+      description: "Issue date of the vouch"
+      source: 03-data-model.md
+    - name: date_of_expiry
+      type: date
+      description: "Expiry date of the evidence"
+      source: 03-data-model.md
+    - name: voucher
+      type: object
+      description: "Person providing the vouch"
+      source: 03-data-model.md
+    - name: transliteration_status
+      type: object
+      description: "Transliteration status"
+      source: 03-data-model.md
+
+- element: authority
+  sub_elements:
+    - name: name
+      type: string
+      description: "Name of the authority"
+      source: 03-data-model.md
+    - name: address
+      type: address
+      description: "Address of the authority"
+      source: 03-data-model.md
+    - name: country_code
+      type: country_code
+      description: "Country code where authority is based"
+      source: 03-data-model.md
+    - name: jurisdiction
+      type: string
+      description: "Jurisdiction of the authority"
+      source: 03-data-model.md
+
+- element: voucher
+  sub_elements:
+    - name: name
+      type: string
+      description: "Name of the voucher"
+      source: 03-data-model.md
+    - name: birthdate
+      type: date
+      description: "Date of birth of the voucher"
+      source: 03-data-model.md
+    - name: address
+      type: address
+      description: "Address of the voucher"
+      source: 03-data-model.md
+    - name: country_code
+      type: country_code
+      description: "Country code where voucher is based"
+      source: 03-data-model.md
+    - name: occupation
+      type: string
+      description: "Occupation of the voucher"
+      source: 03-data-model.md
+    - name: organisation
+      type: authority
+      description: "Organisation the voucher represents"
+      source: 03-data-model.md
+
+- element: check_details
+  sub_elements:
+    - name: check_method
+      type: check_method
+      description: "Process followed to perform the check"
+      source: 03-data-model.md
+    - name: check_id
+      type: string
+      description: "Unique reference number for the check"
+      source: 03-data-model.md
+    - name: time
+      type: timestamp
+      description: "Time the check was performed"
+      source: 03-data-model.md
+    - name: organisation
+      type: string
+      description: "Name of the organisation that performed the check"
+      source: 03-data-model.md
+
+- element: attachment
+  sub_elements:
+    - name: desc
+      type: string
+      description: "Description of the attachment"
+      source: 03-data-model.md
+    - name: content_type
+      type: encoding
+      description: "Type of data encoded in the attachment"
+      source: 03-data-model.md
+    - name: content_format
+      type: encoding_format
+      description: "Format of the encoding"
+      source: 03-data-model.md
+    - name: content
+      type: data
+      description: "The encoded attachment data"
+      source: 03-data-model.md
+
+- element: assurance_process
+  sub_elements:
+    - name: policy
+      type: 'gpg45'
+      description: "Standard or policy followed; fixed literal"
+      source: 03-data-model.md
+    - name: procedure
+      type: procedure
+      description: "Specific procedure from the policy (GPG 45 profile)"
+      source: 03-data-model.md
+    - name: assurance_details
+      type: array
+      description: "Details of checks and processes performed"
+      source: 03-data-model.md
+
+- element: assurance_details
+  sub_elements:
+    - name: assurance_type
+      type: assurance_type
+      description: "Type of check performed"
+      source: 03-data-model.md
+    - name: assurance_classification
+      type: assurance_classification
+      description: "Classification within the trust framework"
+      source: 03-data-model.md
+    - name: evidence_ref
+      type: array
+      description: "Evidence used to reach the assurance"
+      source: 03-data-model.md
+
+- element: evidence_ref
+  sub_elements:
+    - name: check_id
+      type: string
+      description: "Unique reference to the check"
+      source: 03-data-model.md
+    - name: evidence_ref
+      type: object
+      description: "Reference to the evidence metadata"
+      source: 03-data-model.md
+
+- element: evidence_metadata
+  sub_elements:
+    - name: evidence_classification
+      type: evidence_classification
+      description: "How the process demonstrates compliance"
+      source: 03-data-model.md

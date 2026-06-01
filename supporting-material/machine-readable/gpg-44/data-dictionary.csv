@@ -1,0 +1,9 @@
+# Derived, non-authoritative, for implementation support only.
+# Authoritative definition: the publication text under schema-1.0/.
+element,sub_element,type,description,source
+authentication,authenticator_protection,string,Level of protection achieved according to GPG 44,04-data-dictionary.md
+authentication,multifactor,string,The number of factors used in the authentication,04-data-dictionary.md
+authentication,monitoring,string,Whether monitoring is being performed,04-data-dictionary.md
+authentication,authenticators,array,Array of authenticator objects,03-data-model.md
+authenticator,authenticator_type,string,The type of authenticator according to GPG 44,04-data-dictionary.md
+authenticator,authenticator_quality,string,The quality of the authenticator according to GPG 44,04-data-dictionary.md

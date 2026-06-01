@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template govuk-template--rebranded">
+  <head>
+    <meta charset="utf-8">
+    <title>{% if title %}{{ title }} — {% endif %}{{ site.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1d70b8">
+    <link rel="icon" sizes="48x48" href="{{ '/assets/images/favicon.ico' | url }}">
+    <link rel="stylesheet" href="{{ '/stylesheets/govuk-frontend.min.css' | url }}">
+    <style>
+      /* markdown-it-anchor wraps heading text in an <a class="header-anchor">.
+         Without these overrides the heading inherits default link styling
+         (blue, underlined), which fights with GDS heading style. */
+      .header-anchor {
+        color: inherit;
+        text-decoration: none;
+      }
+      .header-anchor:hover,
+      .header-anchor:focus {
+        text-decoration: underline;
+      }
+      /* GitHub-flavoured alert blocks transformed by govspeak.js get the
+         `gha-body` class; strip the bullet-gutter indent on any nested
+         lists so they align with the warning-text body. */
+      .govuk-warning-text .gha-body > :first-child { margin-top: 0; }
+      .govuk-warning-text .gha-body > :last-child  { margin-bottom: 0; }
+    </style>
+  </head>
+  <body class="govuk-template__body">
+    <script>document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');</script>
+
+    {% include "skip-link.html" %}
+    {% include "govuk-header.html" %}
+    {% include "service-navigation.html" %}
+    {% include "phase-banner.html" %}
+
+    <div class="govuk-width-container">
+      <main class="govuk-main-wrapper" id="main-content" role="main">
+        {{ content }}
+        {% include "page-footer.html" %}
+      </main>
+    </div>
+
+    {% include "govuk-footer.html" %}
+
+    <script type="module" src="{{ '/stylesheets/govuk-frontend.min.js' | url }}"></script>
+  </body>
+</html>

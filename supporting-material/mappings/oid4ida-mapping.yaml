@@ -1,0 +1,527 @@
+# =============================================================================
+# DVS data schema → OpenID Identity Assurance Schema Definition mapping
+# =============================================================================
+#
+# Derived, non-authoritative, for implementation support only.
+# Authoritative DVS definition: schema-1.0/gpg-45/
+# Authoritative OID4IDA definition: see standard.url below.
+#
+# Status: draft. This is a seed mapping. Contributors should verify every
+# entry against the target spec before using it in production. The YAML
+# format and the `kind` categories are documented in this folder's README.
+
+standard:
+  name: "OpenID Identity Assurance Schema Definition 1.0"
+  url: "https://openid.net/specs/openid-ida-verified-claims-1_0-final.html"
+  version: "Final (approved October 2024). Errata under public review at the time of writing."
+  errata_url: "https://openid.net/specs/openid-ida-verified-claims-1_0-03.html"
+  family:
+    - name: "OpenID Connect for Identity Assurance 1.0"
+      url: "https://openid.net/specs/openid-connect-4-identity-assurance-1_0-final.html"
+    - name: "OpenID Connect for Identity Assurance Claims Registration 1.0"
+      url: "https://openid.net/specs/openid-connect-4-ida-claims-1_0-final.html"
+  date_referenced: "2026-04-21"
+
+labelling:
+  derived: true
+  non_authoritative: true
+  for_implementation_support_only: true
+  status: |
+    Draft seed mapping. Not yet reviewed against the current errata.
+    Contributors should verify each entry against the target spec before use.
+
+authoritative_dvs_source: schema-1.0/gpg-45/
+
+# -----------------------------------------------------------------------------
+# Top-level structure
+# -----------------------------------------------------------------------------
+mappings:
+
+  - dvs: verified_claims
+    target: verified_claims
+    kind: exact
+    notes: |
+      Top-level container in both specs. The DVS schema inherits the
+      OID4IDA structure of a single object with `claims` and `verification`
+      children.
+
+  - dvs: verified_claims.claims
+    target: verified_claims.claims
+    kind: exact
+    notes: |
+      The verified identity claims container. Direct match.
+
+  - dvs: verified_claims.verification
+    target: verified_claims.verification
+    kind: exact
+    notes: |
+      The container describing how the claims were verified.
+
+  # ---------------------------------------------------------------------------
+  # verified_claims.claims.* — identity attributes
+  # ---------------------------------------------------------------------------
+  - dvs: verified_claims.claims.given_name
+    target: verified_claims.claims.given_name
+    kind: exact
+    notes: |
+      Inherited from OpenID Connect Core. See `oidc-core-mapping.yaml`.
+
+  - dvs: verified_claims.claims.family_name
+    target: verified_claims.claims.family_name
+    kind: exact
+    notes: Inherited from OpenID Connect Core.
+
+  - dvs: verified_claims.claims.birthdate
+    target: verified_claims.claims.birthdate
+    kind: exact
+    notes: |
+      Inherited from OIDC Core. Both specs require ISO 8601 YYYY-MM-DD.
+
+  - dvs: verified_claims.claims.nationalities
+    target: verified_claims.claims.nationalities
+    kind: exact
+    notes: |
+      Array of nationalities. In the IDA Claims Registration. Both specs
+      recommend ISO 3166-1 alpha-2 or alpha-3 country codes; DVS additionally
+      permits ICAO Doc 9303 codes (see `schema-1.0/gpg-45/04-data-dictionary.md`).
+
+  - dvs: verified_claims.claims.address
+    target: verified_claims.claims.address
+    kind: restructured
+    notes: |
+      DVS `address` has `street_address`, `locality`, `postal_code`,
+      `country`, and an optional `transliteration_status`. OIDC Core
+      `address` has `formatted`, `street_address`, `locality`, `region`,
+      `postal_code`, `country`. DVS omits `formatted` and `region`; OID4IDA
+      / OIDC have no `transliteration_status` equivalent.
+
+  - dvs: verified_claims.claims.address.street_address
+    target: verified_claims.claims.address.street_address
+    kind: exact
+
+  - dvs: verified_claims.claims.address.locality
+    target: verified_claims.claims.address.locality
+    kind: exact
+
+  - dvs: verified_claims.claims.address.postal_code
+    target: verified_claims.claims.address.postal_code
+    kind: exact
+
+  - dvs: verified_claims.claims.address.country
+    target: verified_claims.claims.address.country
+    kind: exact
+
+  - dvs: verified_claims.claims.address.transliteration_status
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS adds a structured `transliteration_status` object on `address`.
+      No OID4IDA or OIDC Core equivalent. Likely relevant for future IDA
+      work; track via KI-8.
+
+  - dvs: verified_claims.claims.transliteration_status
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS adds a structured `transliteration_status` object at the `claims`
+      level, describing how given/family names have been transliterated.
+      No OID4IDA equivalent.
+
+  - dvs: verified_claims.claims.biometric_information
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS models biometric information as an array under `claims` containing
+      a `biometric_modality` and attachments. OID4IDA models biometrics
+      within `verification.evidence[*].verification_method` as a separate
+      concept, not as a claim about the end-user. The DVS model treats the
+      captured biometric data more explicitly as part of the identity.
+
+  - dvs: verified_claims.claims.age
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS exposes the end-user's numeric age as a claim. OID4IDA has no
+      direct `age` claim; the common OIDC-adjacent equivalent is
+      `age_equal_or_over`, which is a comparison rather than a value.
+
+  - dvs: verified_claims.claims.is_under
+    target: "(approximate) age_equal_or_over"
+    kind: restructured
+    notes: |
+      DVS `is_under: <number>` and `is_over: <number>` express two separate
+      age assertions. The closest OIDC / IDA concept is `age_equal_or_over`,
+      which asserts a lower bound only. Mapping `is_under` into
+      `age_equal_or_over` is not direct — `is_under: 18` is not the same
+      claim as `age_equal_or_over: 18`. Flagged under KI-8.
+
+  - dvs: verified_claims.claims.is_over
+    target: "(approximate) age_equal_or_over"
+    kind: restructured
+    notes: "See `is_under` note. `is_over: 18` ≈ `age_equal_or_over: 18`."
+
+  # ---------------------------------------------------------------------------
+  # verified_claims.verification.* — verification envelope
+  # ---------------------------------------------------------------------------
+  - dvs: verified_claims.verification.trust_framework
+    target: verified_claims.verification.trust_framework
+    kind: exact
+    notes: |
+      Field name and position match. DVS fixes the value to the literal
+      'uk_dvstf'; OID4IDA expects one of the values registered in the
+      trust framework registry. 'uk_dvstf' would need to be registered (or
+      treated as a vendor-specific value) to be interoperable with off-the-
+      shelf OID4IDA consumers.
+
+  - dvs: verified_claims.verification.dvs_registration
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS adds a `dvs_registration` object naming the certified service
+      (`registered_name`, `registration_id`) that performed the verification.
+      No OID4IDA equivalent; `verifier.organization` inside each evidence
+      item is the closest concept but is per-evidence, not per-verification.
+
+  - dvs: verified_claims.verification.assurance_level
+    target: verified_claims.verification.assurance_level
+    kind: exact
+    notes: |
+      Field name matches. DVS restricts values to `low`, `medium`, `high`,
+      `very_high` (GPG 45). OID4IDA does not prescribe specific values —
+      meaning is defined by the trust framework.
+
+  - dvs: verified_claims.verification.assurance_process
+    target: verified_claims.verification.assurance_process
+    kind: restructured
+    notes: |
+      Both specs have an `assurance_process` object. DVS fixes `policy` to
+      'gpg45' and expresses `procedure` as a GPG 45 profile identifier
+      (L1A, M2A etc.) plus an `assurance_details` array with type /
+      classification / evidence references. OID4IDA's `assurance_process`
+      carries `policy`, `procedure` and `status`; the GPG 45 score concept
+      has no direct OID4IDA equivalent.
+
+  - dvs: verified_claims.verification.assurance_process.assurance_details
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS adds a structured breakdown of each assurance step, each with a
+      type (validation / verification / counter_fraud / activity_history)
+      and a GPG 45 score (score_1..4). OID4IDA does not model per-step
+      scoring; assurance is a single top-level `assurance_level`.
+
+  - dvs: ~
+    target: verified_claims.verification.time
+    kind: target_only
+    notes: |
+      OID4IDA has a `time` field on `verification` recording when the
+      verification took place. DVS does not have a top-level verification
+      time; the closest is per-evidence `check_details.time`.
+
+  - dvs: ~
+    target: verified_claims.verification.verification_process
+    kind: target_only
+    notes: |
+      OID4IDA has a `verification_process` identifier. DVS expresses the
+      analogous information via `assurance_process.procedure`.
+
+  # ---------------------------------------------------------------------------
+  # Evidence — common
+  # ---------------------------------------------------------------------------
+  - dvs: verified_claims.verification.evidence
+    target: verified_claims.verification.evidence
+    kind: exact
+    notes: Array of evidence items; same position in both specs.
+
+  - dvs: verified_claims.verification.evidence[].document
+    target: verified_claims.verification.evidence[].document
+    kind: exact
+    notes: |
+      Document-as-evidence. Structurally similar in both specs but see the
+      `check_details` vs `validation_method` / `verification_method` note
+      below.
+
+  - dvs: verified_claims.verification.evidence[].electronic_record
+    target: verified_claims.verification.evidence[].electronic_record
+    kind: exact
+
+  - dvs: verified_claims.verification.evidence[].vouch
+    target: verified_claims.verification.evidence[].vouch
+    kind: exact
+
+  # ---------------------------------------------------------------------------
+  # Document details
+  # ---------------------------------------------------------------------------
+  - dvs: "verified_claims.verification.evidence[].document.document_details"
+    target: "verified_claims.verification.evidence[].document.document_details"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].document.document_details.type"
+    target: "verified_claims.verification.evidence[].document.document_details.type"
+    kind: restructured
+    notes: |
+      Field name matches. Both specs restrict to a predefined list. DVS's
+      `document_type` list is UK-oriented (includes `firearm_certificate`,
+      `veterans_card`, `freedom_pass`, `bus_pass`, `pass_card` etc.);
+      OID4IDA's list is more international. An implementation that needs
+      to interoperate with both will need a translation table.
+
+  - dvs: "verified_claims.verification.evidence[].document.document_details.document_number"
+    target: "verified_claims.verification.evidence[].document.document_details.document_number"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].document.document_details.serial_number"
+    target: "verified_claims.verification.evidence[].document.document_details.serial_number"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].document.document_details.personal_number"
+    target: "verified_claims.verification.evidence[].document.document_details.personal_number"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].document.document_details.date_of_issuance"
+    target: "verified_claims.verification.evidence[].document.document_details.date_of_issuance"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].document.document_details.date_of_expiry"
+    target: "verified_claims.verification.evidence[].document.document_details.date_of_expiry"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].document.document_details.issuer"
+    target: "verified_claims.verification.evidence[].document.document_details.issuer"
+    kind: restructured
+    notes: |
+      Both specs name the issuing authority `issuer`. DVS models it as an
+      `authority` object with `name`, `address`, `country_code`,
+      `jurisdiction`. OID4IDA uses a flatter structure with `name`,
+      `country_code`, `jurisdiction`, `region`, `locality`, `street_address`
+      (no nested address). The fields are semantically overlapping but the
+      shape differs.
+
+  - dvs: "verified_claims.verification.evidence[].document.document_details.transliteration_status"
+    target: ~
+    kind: dvs_only
+
+  # ---------------------------------------------------------------------------
+  # Electronic record
+  # ---------------------------------------------------------------------------
+  - dvs: "verified_claims.verification.evidence[].electronic_record.record.type"
+    target: "verified_claims.verification.evidence[].electronic_record.record.type"
+    kind: restructured
+    notes: |
+      Field name matches. Both restrict to a predefined list, but the lists
+      differ substantially. DVS `record_type` is UK-specific and includes
+      `voter_register`, `fraud_register`, `death_register`, `adoption_register`,
+      `social_security_record`, `utility_account`, etc.
+
+  - dvs: "verified_claims.verification.evidence[].electronic_record.record.reference_number"
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS adds a `reference_number` to electronic records. OID4IDA has a
+      `personal_number` but no general `reference_number` for the record
+      itself.
+
+  - dvs: "verified_claims.verification.evidence[].electronic_record.record.created_at"
+    target: "verified_claims.verification.evidence[].electronic_record.record.created_at"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].electronic_record.record.date_of_expiry"
+    target: "verified_claims.verification.evidence[].electronic_record.record.date_of_expiry"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].electronic_record.record.source"
+    target: "verified_claims.verification.evidence[].electronic_record.record.source"
+    kind: restructured
+    notes: |
+      Same structural note as `document_details.issuer`: DVS uses the
+      nested `authority` shape; OID4IDA uses a flatter `source` object.
+
+  - dvs: ~
+    target: "verified_claims.verification.evidence[].electronic_record.record.derived_claims"
+    kind: target_only
+    notes: |
+      OID4IDA allows a record to carry `derived_claims` — claims inferred
+      from the record content. DVS does not model this. Likely relevant to
+      future DVS revisions.
+
+  # ---------------------------------------------------------------------------
+  # Vouch
+  # ---------------------------------------------------------------------------
+  - dvs: "verified_claims.verification.evidence[].vouch.attestation"
+    target: "verified_claims.verification.evidence[].vouch.attestation"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].vouch.attestation.reference_number"
+    target: "verified_claims.verification.evidence[].vouch.attestation.reference_number"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].vouch.attestation.date_of_issuance"
+    target: "verified_claims.verification.evidence[].vouch.attestation.date_of_issuance"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].vouch.attestation.date_of_expiry"
+    target: "verified_claims.verification.evidence[].vouch.attestation.date_of_expiry"
+    kind: exact
+
+  - dvs: "verified_claims.verification.evidence[].vouch.attestation.voucher"
+    target: "verified_claims.verification.evidence[].vouch.attestation.voucher"
+    kind: restructured
+    notes: |
+      DVS voucher has `name`, `birthdate`, `address`, `country_code`,
+      `occupation`, `organisation` (British spelling). OID4IDA voucher
+      uses `organization` (American spelling) and does not typically
+      include `address` as a nested object in the voucher. Renaming
+      `organisation` → `organization` at the wire level is likely
+      required for interoperability.
+
+  # ---------------------------------------------------------------------------
+  # Check details — the biggest structural divergence
+  # ---------------------------------------------------------------------------
+  - dvs: "verified_claims.verification.evidence[].*.check_details"
+    target: "verified_claims.verification.evidence[].*.validation_method / verification_method"
+    kind: restructured
+    notes: |
+      This is the largest structural difference between DVS and OID4IDA
+      at the evidence level.
+      DVS has a single `check_details` object on each evidence item with
+      `check_method`, `check_id`, `time`, `organisation`. It also has a
+      parallel `assurance_process.assurance_details[*].evidence_ref[*]`
+      mapping `check_id` to evidence_classification (low_kbv, id_fraud,
+      mortality_check etc.) — so the evidence-level check and the
+      assurance-level classification are joined via `check_id`.
+      OID4IDA splits the equivalent into `validation_method` (proving the
+      evidence itself is genuine) and `verification_method` (proving the
+      user is the owner of the identity in the evidence), plus `verifier`
+      (the organisation that performed the checks) and per-evidence
+      `time`. The DVS single-`check_details` shape is simpler; the
+      OID4IDA split is more granular.
+
+  - dvs: "verified_claims.verification.evidence[].*.check_details.check_method"
+    target: "validation_method.method / verification_method.method"
+    kind: restructured
+    notes: |
+      DVS has one method enum (auth, token, kbv, pvp, pvr, bvp, bvr, vpip,
+      vpiruv, vri, vdig, vcrypt, data) covering both validation and
+      verification. OID4IDA splits into two separate enums; vpip / vri /
+      vdig / vcrypt / data appear in validation_method; pvp / pvr / bvp /
+      bvr / auth / token / kbv appear in verification_method. Most values
+      overlap but the DVS single-enum presentation is not directly
+      compatible.
+
+  - dvs: "verified_claims.verification.evidence[].*.check_details.organisation"
+    target: "verified_claims.verification.evidence[].*.verifier.organization"
+    kind: renamed
+    notes: |
+      British vs American spelling. Mechanical translation on the wire.
+
+  # ---------------------------------------------------------------------------
+  # Authority / issuer / source
+  # ---------------------------------------------------------------------------
+  - dvs: "authority (structured)"
+    target: "issuer / source (structured-ish)"
+    kind: restructured
+    notes: |
+      DVS defines a reusable `authority` object used as `issuer` (on
+      documents) and `source` (on electronic records) and as
+      `voucher.organisation`. The OID4IDA equivalents are not defined as a
+      single reusable shape; each usage site defines the fields it needs
+      (which overlap heavily but are not type-identical).
+
+  # ---------------------------------------------------------------------------
+  # Attachments
+  # ---------------------------------------------------------------------------
+  - dvs: "attachment.desc"
+    target: "attachment.desc"
+    kind: exact
+
+  - dvs: "attachment.content_type"
+    target: "attachment.content_type"
+    kind: exact
+    notes: |
+      Both specs expect an IANA media type string.
+      Note: the DVS field was corrected on 13 April 2026 — prior GOV.UK
+      wording had inadvertently shown `content_type` where
+      `content_format` was intended elsewhere in the same structure. See
+      the editor's note on the `### Attachment` section in
+      `schema-1.0/gpg-45/03-data-model.md`.
+
+  - dvs: "attachment.content_format"
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS separates the high-level MIME type (`content_type`) from the
+      binary-to-text encoding format (`content_format`: base64 | byte_data).
+      OID4IDA typically uses the MIME type alone and base64-encodes the
+      payload by convention.
+
+  - dvs: "attachment.content"
+    target: "attachment.content"
+    kind: exact
+
+  # ---------------------------------------------------------------------------
+  # Target-only elements worth flagging
+  # ---------------------------------------------------------------------------
+  - dvs: ~
+    target: "verified_claims.verification.evidence[].*.attachments[].txn"
+    kind: target_only
+    notes: |
+      OID4IDA attachments can carry a `txn` identifier linking the
+      attachment to an audit trail. DVS does not model this at the
+      attachment level.
+
+  - dvs: ~
+    target: "verified_claims.verification.evidence[].*.attachments[].url / access_token / expires_in / digest"
+    kind: target_only
+    notes: |
+      OID4IDA supports externally-hosted attachments referenced by URL
+      with an optional access token and content digest. DVS models only
+      inline attachments.
+
+  - dvs: ~
+    target: "verified_claims.verification.evidence[].electronic_signature"
+    kind: target_only
+    notes: |
+      OID4IDA defines a separate `electronic_signature` evidence type with
+      `signature`, `serial_number`, `certificate_type`, `issuer`,
+      `digest_method`, `algorithm`, `signed_data_type`, `format`,
+      `key_algorithm`, `time`. DVS does not currently model
+      electronic-signature evidence as a distinct type; the analogous
+      information would fit under `document` or `electronic_record`.
+
+  - dvs: ~
+    target: "verified_claims.verification.evidence[].qes"
+    kind: target_only
+    notes: |
+      OID4IDA also defines a qualified electronic signature evidence
+      type. No DVS counterpart.
+
+  # ---------------------------------------------------------------------------
+  # DVS-only elements worth flagging for OIDF liaison
+  # ---------------------------------------------------------------------------
+  - dvs: "assurance_process.assurance_details[].evidence_ref[].check_id"
+    target: ~
+    kind: dvs_only
+    notes: |
+      DVS cross-links each assurance_detail to the specific check_details
+      that supplied its evidence via a `check_id` identifier. This
+      cross-link is GPG-45-specific and has no OID4IDA analogue.
+
+  - dvs: "assurance_process.assurance_details[].assurance_classification"
+    target: ~
+    kind: dvs_only
+    notes: |
+      GPG 45 scoring (score_1..4) is DVS-only. Mentioned in the internal
+      OIDF feedback notes (KI-8).
+
+  - dvs: "evidence_classification (as a predefined-list value)"
+    target: ~
+    kind: dvs_only
+    notes: |
+      Values: low_kbv, medium_kbv, high_kbv, id_fraud, mortality_check.
+      These carry GPG-45-specific meaning and have no OID4IDA analogue.
+
+# -----------------------------------------------------------------------------
+# End of mapping.
+# See `README.md` for the labelling rules and `KNOWN-ISSUES.md` (KI-7, KI-8)
+# for the broader OIDF alignment context.
+# -----------------------------------------------------------------------------

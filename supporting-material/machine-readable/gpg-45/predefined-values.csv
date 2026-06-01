@@ -1,0 +1,71 @@
+# Derived, non-authoritative, for implementation support only.
+# Authoritative definition: the publication text under schema-1.0/.
+value,definition
+activity_history,Activity history check according to GPG 45
+adoption_certificate,A document relating to the adoption of a person
+adoption_register,A record relating to the adoption of a person
+auth,Verifying the user is the owner of the claims by use of an electronic authentication process linked to the owner of the claims
+bank_account,A financial account maintained by a bank
+bank_statement,A summary of bank transactions over a given period
+base64,Standard binary-to-text encoding system that uses printable characters to represent a sequence of bytes
+birth_certificate,A document relating to the birth of a person
+birth_register,A record relating to the birth of a person
+building_society_account,A financial account maintained by a building society
+bus_pass,An older or disabled person's bus pass
+bvp,Biometric verification by an automated system with the user physically present
+bvr,Biometric verification by an automated system where the user is remote to the verifier
+byte_data,Data that is made up of bytes as defined by ISO/IEC 2382-1
+civil_partnership_register,A record relating to the civil partnership of a person
+counter_fraud,Counter fraud check was performed
+credit_account,Financial account where the bank offers the customer credit
+credit_union_account,A financial account maintained by a credit union
+current_account,Financial account used for day to day money exchange
+data,Found an existing electronic record that matches the claims made by the user
+driving_permit,A permit / licence required to operate a motor vehicle on public roads
+education_certificate,Certificate of completing education / course
+education_record,A record from an educational institution
+firearm_certificate,A certificate required in order to own a firearm
+freedom_pass,Free public transport pass for older or disabled people in London and local buses in England
+home_office_travel_document,International travel document issued by the Home Office
+icao,Transliteration has been done following ICAO Doc 9303 standard
+id_card,An identity card issued by a recognised country
+kbv,Verifying via knowledge-based challenges only the owner of the claims should know
+loan_account,A specific type of financial account relating to sums borrowed by the customer
+loan_statement,A summary of loan transactions over a given period
+manual,Transliteration has been done manually and may not follow a defined standard
+marriage_register,A record relating to the marriage of a person
+military_id,Active service personnel ID card
+military_record,Records about service personnel held by an armed forces organisation
+mortgage_account,A loan used to purchase or maintain a property
+mortgage_statement,A summary of mortgage transactions over a given period
+pass_card,Proof of age card issued under the rules of PASS
+passport,An ICAO compliant passport issued by a recognised country
+passport_card,An ICAO compliant passport card issued by a recognised country
+pilot_permit,A permit / licence required to operate an aircraft
+population_register,Record relating to a person being resident or a citizen in a given jurisdiction
+prison_record,Records about an inmate held by an organisation responsible for managing prisons
+proof_of_age_id,ID predominately used as a proof of age
+purchase_agreement,Contract between a buyer and a seller that defines the terms of a purchase
+pvp,Physical verification in person by a qualified/authorised person
+pvr,Physical verification by a qualified/authorised person when the user is remote
+rental_agreement,Contractual agreement relating to renting a property
+social_security_record,Records held by a social security organisation
+social_security_statement,A summary of social security awards or transactions
+student_loan_account,A record of a student loan
+tax_record,Records about a person held by a tax authority
+tax_statement,A summary of tax liabilities and transactions over a given period
+token,Verifying via an electronic authentication token such as hardware token or smartcard
+unknown_transliteration,Transliteration status or method is not known
+utility_account,A record relating to a utility
+utility_statement,A summary of utility usage over a given period
+validation,Validating the authenticity of evidence according to GPG 45
+vcrypt,Validation of the cryptographic security features of the evidence
+vdig,Validation that digital/electronic evidence is genuine by inspection of its properties and content
+verification,Verifying the person is the owner of the identity in accordance with GPG 45
+veterans_card,Armed Forces Veteran Card
+visa,"Legal document issued by a country to a foreign citizen to enter, stay, work or travel"
+voter_id,Photographic identity card used for voting at polling stations
+voter_register,A record relating to a person's right to vote
+vpip,Validation that physical evidence is genuine through inspection in person
+vpiruv,"Validation of physical evidence in person, including optical characteristics under non-visible light"
+vri,Validation that physical evidence is genuine through inspection of an image taken remotely under visible light
